@@ -1,3 +1,12 @@
+**************************************************************
+项目概要：
+训练集中的一部分数据（14日）提出，与预测数据（14日）进行可视化分析，然而，
+1.两者之间并不是连续的时间序列关系，间隔约两个月。
+2.分析对象并非一个，而是多个地区，即多个地区的前与后。
+3.既要把多个地区之间的比较表现出来，又要把各地区自身前后的变化表现出来。
+**************************************************************
+
+
 import pandas as pd
 import sys
 import numpy as np
@@ -5,3 +14,89 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime
 from pandas import Series,DataFrame
+
+
+----------------------------------------------------------------  Dataset "Before"  ----------------------------------------------------------------
+# 从训练集中，只读取前14行数据
+before = pd.read_csv(r'../data/Osaka_flow.csv',nrows=14)
+
+# 将时间列转换为DataFrame的时间格式
+before['date'] = pd.to_datetime(before['date'])
+
+# 设置date为索引
+before = before.set_index('date')
+
+----------------------------------------------------------------  Dataset "After"  ----------------------------------------------------------------
+after = pd.read_csv(r'../data/Osaka_flow.csv')
+after['date'] = pd.to_datetime(after['date'])
+
+# 选取特定时间段数据
+after = after[(after['date']<=pd.to_datetime('2020-04-14')) & (after['date']>=pd.to_datetime('2020-04-01'))]
+after = after.set_index('date')
+
+----------------------------------------------------------------  Visualize  ----------------------------------------------------------------
+# 画布，子图设定
+plt.style.use({'figure.figsize':(30,15)})
+fig, ax = plt.subplots()
+
+# 自定义样式
+plt.rcParams['font.size'] = 14
+plt.rcParams['font.family'] = 'Times New Roman'
+
+# 设置x,y轴的字体、大小、名称
+ax.set_xlabel("Date", font="Times New Roman", fontsize = 30)
+ax.set_ylabel("PeopleFlowRate", font="Times New Roman", fontsize = 30)
+
+plt.xticks(fontproperties = 'Times New Roman',size = 25)
+plt.yticks(fontproperties = 'Times New Roman',size = 25)
+
+⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ Kernel ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
+#param1
+rr = before['retail_and_recreation_percent_change_from_baseline']
+rr2 = after['retail_and_recreation_percent_change_from_baseline']
+#param2
+gp = before['grocery_and_pharmacy_percent_change_from_baseline']
+gp2 = after['grocery_and_pharmacy_percent_change_from_baseline']
+#param3
+p = before['parks_percent_change_from_baseline']
+p2 = after['parks_percent_change_from_baseline']
+#param4
+ts = before['transit_stations_percent_change_from_baseline']
+ts2 = after['transit_stations_percent_change_from_baseline']
+#param5
+wp = before['workplaces_percent_change_from_baseline']
+wp2 = after['workplaces_percent_change_from_baseline']
+#param6
+re = before['residential_percent_change_from_baseline']
+re2 = after['residential_percent_change_from_baseline']
+
+ax.plot(before.index,rr,'bo-',label='Retail_and_Recreation')
+ax.plot(after.index,rr2,'bo-')
+ax.plot(before.index,gp,'go-',label='Grocery_and_Pharmacy')
+ax.plot(after.index,gp2,'go-')
+ax.plot(before.index,wp,'ko-',label='Workplace')
+ax.plot(after.index,wp2,'ko-')
+ax.plot(before.index,re,'yo-',label='Residential')
+ax.plot(after.index,re2,'yo-')
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!面向复制粘贴编程，这或许是最好理解最不容易出错的方法！！！！！！！！！！！！！！！！！！！！
+1.数据切分为各个地区的前与后
+2.同一地区的前后折线强行设置同一颜色表示其一家性
+3.图例每个地区只设置一次，避免了重复出现图例的情况
+！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+
+# 设置x轴表示范围区间
+datemin = before.index[0]
+datemax = after.index[13]
+ax.set_xlim(datemin, datemax)
+
+# 最后设置
+ax.grid(True)
+ax.legend(loc='lower left',fontsize=20)
+ax.set_title('Population flow change at each location',fontsize=30)
+plt.show()
+
+
+
+
+
