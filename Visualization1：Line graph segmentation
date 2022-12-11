@@ -96,7 +96,8 @@ ax.legend(loc='lower left',fontsize=20)
 ax.set_title('Population flow change at each location',fontsize=30)
 plt.show()
 
-
+# 保存透明背景png
+fig.savefig("../graph.png",transparent=True)
 
 
 
