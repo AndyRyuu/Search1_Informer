@@ -28,11 +28,11 @@ plt.rcParams['font.family'] = 'Times New Roman'
 plt.xticks(fontproperties = 'Times New Roman',size = 25)
 plt.yticks(fontproperties = 'Times New Roman',size = 25)
     
-#大图画布及参数构建
-
+----------------------------------------------------------------  大图画布参数构建  ----------------------------------------------------------------
 #设置图位置，从左起x个单位，从下起y个单位，缩放width、height个单位
 left,bottom,width,height=0,0,1,1
 #设置为无变化，即0，0，1，1
+
 ax1 = fig.add_axes([left,bottom,width,height])
 ax1.plot(flow_all,label='AllParameter')
 ax1.plot(flow_dist, label='By_DivisionSpace')
@@ -45,7 +45,8 @@ ax1.legend(loc='upper right',fontsize=20)
 ax1.set_title('People flow predicted by Each Case',fontsize=30)
 #ax.set_ylim(-25,25)
 
-#小图构建
+----------------------------------------------------------------  小图画布参数构建  ----------------------------------------------------------------
+#设置图的位置为从下从左起移动0.1个单位，长宽缩放0.5个单位
 left,bottom,width,height=0.1,0.1,0.5,0.5
 ax2 = fig.add_axes([left,bottom,width,height])
 ax2.plot(flow_all,label='AllParameter')
@@ -55,4 +56,5 @@ ax2.set_title('Detail of Each Case',fontsize=30)
 
 
 plt.show()
+#这里问题在于，图进行缩放操作后无法正常保存，总会有缺失，添加参数【bbox_inches】
 fig.savefig("/Users/liuziheng/JupyterTemp/Datasets/COVID-19/graph2.png",bbox_inches = 'tight')
