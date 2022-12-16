@@ -1,0 +1,43 @@
+
+
+
+
+
+plt.style.use({'figure.figsize':(30,15)})
+
+fig, ax = plt.subplots()
+
+plt.rcParams['font.size'] = 25
+plt.rcParams['font.family'] = 'Times New Roman'
+
+#plt.rcParams['xtick.direction'] = 'in'
+#plt.rcParams['ytick.direction'] = 'in'
+
+plt.xticks(fontproperties = 'Times New Roman',size = 25)
+plt.yticks(fontproperties = 'Times New Roman',size = 25)
+    
+#Big Axes
+left,bottom,width,height=0,0,1,1
+ax1 = fig.add_axes([left,bottom,width,height])
+ax1.plot(flow_all,label='AllParameter')
+ax1.plot(flow_dist, label='By_DivisionSpace')
+ax1.plot(flow_wea, label='By_Weather')
+ax1.plot(flow_true['sumFlow'], label='GroundTruth')
+ax1.set_xlabel("Date", font="Times New Roman", fontsize = 30)
+ax1.set_ylabel("PeopleFlowRate", font="Times New Roman", fontsize = 30)
+ax1.grid(True)
+ax1.legend(loc='upper right',fontsize=20)
+ax1.set_title('People flow predicted by Each Case',fontsize=30)
+#ax.set_ylim(-25,25)
+
+#Small Axes
+left,bottom,width,height=0.1,0.1,0.5,0.5
+ax2 = fig.add_axes([left,bottom,width,height])
+ax2.plot(flow_all,label='AllParameter')
+ax2.plot(flow_dist, label='By_DivisionSpace')
+ax2.plot(flow_wea, label='By_Weather')
+ax2.set_title('Detail of Each Case',fontsize=30)
+
+
+plt.show()
+fig.savefig("/Users/liuziheng/JupyterTemp/Datasets/COVID-19/graph2.png",bbox_inches = 'tight')
