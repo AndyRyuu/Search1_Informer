@@ -1,6 +1,18 @@
 
+**************************************************************
+项目概要：
+为将预测数据与实际数据比较，放在一张图中表现，然而：
+1.数据之间相差甚远，预测数据不如意；
+2.预测数据（多条）之间无太大变化，导致线条重合，难读。
+**************************************************************
 
-
+import pandas as pd
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import datetime
+from pandas import Series,DataFrame
 
 
 plt.style.use({'figure.figsize':(30,15)})
@@ -16,8 +28,11 @@ plt.rcParams['font.family'] = 'Times New Roman'
 plt.xticks(fontproperties = 'Times New Roman',size = 25)
 plt.yticks(fontproperties = 'Times New Roman',size = 25)
     
-#Big Axes
+#大图画布及参数构建
+
+#设置图位置，从左起x个单位，从下起y个单位，缩放width、height个单位
 left,bottom,width,height=0,0,1,1
+#设置为无变化，即0，0，1，1
 ax1 = fig.add_axes([left,bottom,width,height])
 ax1.plot(flow_all,label='AllParameter')
 ax1.plot(flow_dist, label='By_DivisionSpace')
@@ -30,7 +45,7 @@ ax1.legend(loc='upper right',fontsize=20)
 ax1.set_title('People flow predicted by Each Case',fontsize=30)
 #ax.set_ylim(-25,25)
 
-#Small Axes
+#小图构建
 left,bottom,width,height=0.1,0.1,0.5,0.5
 ax2 = fig.add_axes([left,bottom,width,height])
 ax2.plot(flow_all,label='AllParameter')
