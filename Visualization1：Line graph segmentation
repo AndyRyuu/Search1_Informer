@@ -51,6 +51,7 @@ plt.xticks(fontproperties = 'Times New Roman',size = 25)
 plt.yticks(fontproperties = 'Times New Roman',size = 25)
 
 ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇ Kernel ⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇⬇
+
 #param1
 rr = before['retail_and_recreation_percent_change_from_baseline']
 rr2 = after['retail_and_recreation_percent_change_from_baseline']
@@ -79,11 +80,11 @@ ax.plot(after.index,wp2,'ko-')
 ax.plot(before.index,re,'yo-',label='Residential')
 ax.plot(after.index,re2,'yo-')
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!面向复制粘贴编程，这或许是最好理解最不容易出错的方法！！！！！！！！！！！！！！！！！！！！
+！！！！！！！！！！！！！！！！！！！！！！！！！！！！面向复制粘贴编程，这或许是最好理解最不容易出错的方法！！！！！！！！！！！！！！！！！！！！
 1.数据切分为各个地区的前与后
 2.同一地区的前后折线强行设置同一颜色表示其一家性
 3.图例每个地区只设置一次，避免了重复出现图例的情况
-！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 
 # 设置x轴表示范围区间
 datemin = before.index[0]
