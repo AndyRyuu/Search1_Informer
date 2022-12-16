@@ -1,0 +1,54 @@
+
+
+
+from sklearn.impute import SimpleImputer
+
+imp_0 = SimpleImputer(missing_values=np.nan , strategy="constant" ,fill_value=0)
+imp = imp_0.fit_transform(Osaka_new)
+
+
+
+
+from sklearn.impute import SimpleImputer
+from sklearn.ensemble import RandomForestRegressor
+
+#删除不要的列(object列)
+drop_columns = ['prefecture','都道府県','population_e','aging_rate','date','I', 'ICU', 'R', 
+       'population_density', 'average_age','V_o1', 'V_o2', 'V_o3', 'V_o4', 'V_e1', 'V_e2',
+       'V_e3', 'V_e4', 'V_u1', 'V_u2', 'V_u3', 'V_u4', 'V_m1', 'V_m2', 'V_1',
+       'V_2', 'V_3', 'V_4', 'V_1_rate', 'V_2_rate', 'V_3_rate', 'V_4_rate',
+       'V_e1_rate', 'V_e2_rate', 'V_e3_rate', 'V_e4_rate', 'H', 'H_bed',
+       'ICU_national', 'ICU_national_bed', 'H_occupancy_rate',
+       'ICU_national_occupancy_rate']
+x_missing = Osaka_new.drop(drop_columns,axis=1)
+
+
+#x_missing = Osaka_new.copy()
+#x_missing_reg = x_missing.copy()
+#argsort,进行大小排序返回序列号
+sortindex = np.argsort(x_missing.isnull().sum(axis=0)).values
+
+sortindex
+
+# 核心代码
+for i in sortindex:
+    if x_missing.iloc[:,i].isnull().sum() == 0:
+        continue
+    df = x_missing
+    fillc = df.iloc[:,i]
+    df = df.iloc[:,df.columns!=df.columns[i]]
+    
+    #下面是对于使用了0来填补特征矩阵中的缺失值，与上同
+    imp_0 = SimpleImputer(missing_values=np.nan , strategy="constant" ,fill_value=0).fit_transform(df)
+    
+    Ytrain = fillc[fillc.notnull()]
+    Ytest = fillc[fillc.isnull()]
+    
+    Xtrain = imp_0[Ytrain.index,:]
+    Xtest = imp_0[Ytest.index,:]
+    
+    rfr = RandomForestRegressor()
+    rfr.fit(Xtrain,Ytrain)
+    Ypredict = rfr.predict(Xtest)
+    
+    x_missing.loc[x_missing.iloc[:,i].isnull(),x_missing.columns[i]] = Ypredict
